@@ -1,0 +1,16 @@
+# Node.js (TypeScript)
+ts-web-app/node_modules
+ts-web-app/dist
+ts-web-app/.env
+
+# Rust
+rust-web-app/target
+rust-web-app/Cargo.lock
+
+# Go
+go-web-app/bin
+go-web-app/pkg
+
+# System Files
+.DS_Store
+Thumbs.db
