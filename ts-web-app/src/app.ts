@@ -9,7 +9,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/', indexRoutes);
-app.use('/user', userRoutes);
+app.use(indexRoutes);
+app.use(userRoutes);
 
 export default app;
