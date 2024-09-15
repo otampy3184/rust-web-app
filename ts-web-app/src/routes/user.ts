@@ -3,7 +3,7 @@ import { getUserHandler, createUserHandler } from "../controllers/userController
 
 const router = Router();
 
-router.get('/user', getUserHandler);
+router.get('/user/:id', getUserHandler);
 router.post('/user', createUserHandler);
 
 export default router;

@@ -1,21 +1,24 @@
 import { User } from '../models/user';
-import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { GetCommand, GetCommandOutput, PutCommand } from "@aws-sdk/lib-dynamodb";
+import db from '../db';
 
-// DynamoDBクライアントを初期化
-const client = new DynamoDBClient({});
-const db = DynamoDBDocumentClient.from(client);
-
-export const getUserData = (): User => {
-    return {
-        id: 1,
-        name: 'Alice',
+export const getUserDataById = async(id: string): Promise<GetCommandOutput> => {
+    const params = {
+        TableName: 'Users',
+        Key: {
+            ID: id,
+        },
     };
-};
+    
+    const command = new GetCommand(params);
+    const result = await db.send(command);
+
+    return result;
+}
 
 export const createUser = async (user: User): Promise<User> => {
     const params = {
-        TableName: 'User',
+        TableName: 'Users',
         Item: {
             ID: user.id,
             Name: user.name,
