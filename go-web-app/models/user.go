@@ -2,6 +2,6 @@ package models
 
 // Json出力時のキーも指定したデータモデル
 type User struct {
-	ID   int    `json:"id"`
+	ID   string    `json:"id"`
 	Name string `json:"name"`
 }
