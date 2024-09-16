@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { getUserDataById, createUser, updateUser } from "../services/userService";
+import { getUser, createUser, updateUser } from "../services/userService";
 
 export const getUserHandler = async (req: Request, res: Response) => {
     const userId = req.params.id;
 
     try {
-        const user = await getUserDataById(userId);
+        const user = await getUser(userId);
 
         if (user.Item) {
             res.json(user.Item);
@@ -28,7 +28,7 @@ export const createUserHandler = async (req: Request, res: Response) => {
     }
 }
 
-export const updateUserHander = async (req: Request, res: Response): Promise<void> => {
+export const updateUserHandler = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     const { name } = req.body;
 

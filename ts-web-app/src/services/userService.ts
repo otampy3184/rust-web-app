@@ -2,7 +2,7 @@ import { User } from '../models/user';
 import { GetCommand, GetCommandOutput, PutCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import db from '../db';
 
-export const getUserDataById = async(id: string): Promise<GetCommandOutput> => {
+export const getUser = async(id: string): Promise<GetCommandOutput> => {
     const params = {
         TableName: 'Users',
         Key: {

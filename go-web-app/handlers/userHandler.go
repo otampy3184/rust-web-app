@@ -12,7 +12,7 @@ func GetUserHandler(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     userId := vars["id"]
 
-    user, err := services.GetUserById(userId)
+    user, err := services.GetUser(userId)
     if err != nil {
         http.Error(w, err.Error(), http.StatusNotFound)
         return
@@ -44,4 +44,32 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
     w.WriteHeader(http.StatusCreated)
     json.NewEncoder(w).Encode(user)
+}
+
+func UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    userId := vars["id"]
+
+    var requestData struct {
+        Name string `json:"name"`
+    }
+
+    err := json.NewDecoder(r.Body).Decode(&requestData)
+    if err != nil {
+        http.Error(w, "Invalid request body", http.StatusBadRequest)
+        return
+    }
+    if requestData.Name == "" {
+        http.Error(w, "Name is required", http.StatusBadRequest)
+        return
+    }
+
+    updatedUser, err := services.UpdateUser(userId, requestData.Name)
+    if err != nil {
+        http.Error(w, "Failed to update user: "+err.Error(), http.StatusInternalServerError)
+        return
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(updatedUser)
 }
