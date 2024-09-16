@@ -4,11 +4,11 @@ import (
     "log"
     "net/http"
     "go-web-app/server"
-    "go-web-app/services"
+    "go-web-app/db"
 )
 
 func main() {
-    err := services.InitDB()
+    err := db.InitDB()
     if err != nil {
         log.Fatalf("Failed to initialize DynamoDB: %v", err)
     }
