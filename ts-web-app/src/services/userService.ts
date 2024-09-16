@@ -1,5 +1,5 @@
 import { User } from '../models/user';
-import { GetCommand, GetCommandOutput, PutCommand } from "@aws-sdk/lib-dynamodb";
+import { GetCommand, GetCommandOutput, PutCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import db from '../db';
 
 export const getUserDataById = async(id: string): Promise<GetCommandOutput> => {
@@ -29,3 +29,22 @@ export const createUser = async (user: User): Promise<User> => {
     await db.send(command);
     return user;
 };
+
+export const updateUser = async (id: string, name: string): Promise<void> => {
+    const params = {
+        TableName: 'Users',
+        Key: {
+            ID: id,
+        },
+        UpdateExpression: "set #n = :name",
+        ExpressionAttributeNames: {
+            "#n": "Name",
+        },
+        ExpressionAttributeValues: {
+            ":name": name,
+        },
+    }
+
+    const command = new UpdateCommand(params);
+    await db.send(command);
+}
