@@ -1,16 +1,21 @@
+// src/main.rs
+
 mod routes;
+mod handlers;
+mod services;
 mod models;
+mod db;
 
-use actix_web::{App, HttpServer};
+use actix_web::{web, App, HttpServer};
 
-#[actix_web::main] // この属性マクロを利用することでmain関数を非同期で動作するWebサーバーとして定義できる
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    // HTTPサーバーを起動し、ルートを設定
     HttpServer::new(|| {
-        App::new() // App::new()で新しいActix Webアプリケーションを作成し、ルートを構成
-            .configure(routes::index::init) // `/`に対応
-            .configure(routes::user::init) // `/get_user`に対応
+        App::new()
+            .configure(routes::init) // ルート設定の初期化
     })
-    .bind("127.0.0.1:8080")?
-    .run() // サーバーを非同期で実行
-    .await // 非同期処理を待機
+    .bind("127.0.0.1:8080")? // サーバーをバインドするアドレスとポート
+    .run() // サーバーを実行
+    .await // 非同期タスクとして待機
 }

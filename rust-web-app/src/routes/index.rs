@@ -1,16 +1,12 @@
-use actix_web::{web, Responder};
+// src/routes/index.rs
 
-// ルート`/`に対応するハンドラ関数
-pub async fn index() -> impl Responder {
-    "Hello, Rust!" // レスポンスとして文字列を返す
-}
+use actix_web::web;
 
+use crate::handlers::user_handler::{get_user, create_user, update_user};
 
-// `App`に`/`へのルートを追加するための関数
+// ルート設定を初期化
 pub fn init(cfg: &mut web::ServiceConfig) {
-    cfg.service(
-        // ルート`/`にGETリクエストをマッピング
-        web::resource("/")
-            .route(web::get().to(index)) // `GET /`リクエストを`index`関数にルーティング
-    );
+    cfg.service(web::resource("/user/{id}").route(web::get().to(get_user))); // ユーザーを取得
+    cfg.service(web::resource("/user").route(web::post().to(create_user))); // ユーザーを作成
+    cfg.service(web::resource("/user/{id}").route(web::put().to(update_user))); // ユーザーを更新
 }

@@ -1,2 +1,4 @@
+// src/routes/mod.rs
+
 pub mod index;
-pub mod user;
+pub use index::init;
